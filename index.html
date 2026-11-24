@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-mode="app">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>Database — Live Preview</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Database">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#F2F2F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<title>Database</title>
 <style>
 /* VOICE: a shipped iOS app, nothing else; quiet, exact, system-native.
    IDEA: the phone itself — the preview behaves like the SwiftUI build, screen for screen.
@@ -280,6 +289,13 @@ textarea{resize:none;display:block;overflow:hidden}
 .cwprev{display:flex;align-items:center;gap:16px;width:100%;max-width:340px;background:var(--card);border-radius:14px;padding:16px}
 .cwsw{width:64px;height:64px;border-radius:14px;flex:none}
 .cwhex small{display:block;font-size:12px;font-weight:600;color:var(--l2)}.cwhex input{font:20px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase}
+/* Home-screen web app (GitHub Pages build sets data-mode="app"): just the app, edge to edge */
+html[data-mode=app]{--top:env(safe-area-inset-top,0px);--bottom:env(safe-area-inset-bottom,0px);background:var(--bg)}
+html[data-mode=app] body{background:var(--bg);touch-action:manipulation;overscroll-behavior:none}
+html[data-mode=app] #stage{display:block;padding:0;height:100vh;height:100dvh}
+html[data-mode=app] #panel,html[data-mode=app] #minibar,html[data-mode=app] #status{display:none!important}
+html[data-mode=app] #device{width:100%;height:100%;border-radius:0;padding:0;box-shadow:none;background:none}
+html[data-mode=app] #app{border-radius:0}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -1895,5 +1911,6 @@ tick(); setInterval(tick, 20000);
 (async () => { idb = await idbOpen(); await loadBlobs(); setRoot(); if (fresh) { save(); if (SAMPLE_DATA) await seedPhotos(); } })();
 }
 </script>
+<script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>
 </html>
