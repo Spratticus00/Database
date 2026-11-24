@@ -1,9 +1,9 @@
 /* Keeps Database working offline after the first visit.
    Shows the saved copy right away and fetches any update in the background,
    so a new version appears the next time the app is opened. */
-const CACHE = 'database-v1';
+const CACHE = 'database-v2';
 const FILES = ['./', './index.html', './pdf-lib.min.js', './manifest.webmanifest',
-  './icons/apple-touch-icon.png', './icons/icon-192.png', './icons/icon-512.png', './icons/favicon-32.png'];
+  './apple-touch-icon.png', './icon-192.png', './icon-512.png', './favicon-32.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));

@@ -7,12 +7,12 @@ Everything you add is saved on that device.
 ## Put it on GitHub Pages
 
 1. Create a new repository on GitHub, for example `database`.
-2. Upload everything in this folder to the root of the repository, keeping the `icons` folder:
+2. Upload every file in this folder to the root of the repository (there are no subfolders):
    - `index.html`, `pdf-lib.min.js`, `manifest.webmanifest`, `sw.js`, `.nojekyll`
-   - the `icons` folder (`apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `favicon-32.png`)
+   - `apple-touch-icon.png` (the Home Screen icon), `icon-192.png`, `icon-512.png`, `favicon-32.png`
    - `README.md` and `THIRD-PARTY-NOTICES.md` (keep the notices)
 
-   On github.com: **Add file › Upload files**, drag the files and the `icons` folder in, then **Commit changes**.
+   On github.com: **Add file › Upload files**, select all the files, then **Commit changes**.
    `.nojekyll` starts with a dot, so your computer may hide it; the site works without it.
 3. Open **Settings › Pages**. Set **Source** to **Deploy from a branch**, choose **main** and **/ (root)**, then **Save**.
 4. After a minute or two it's live at `https://YOUR-USERNAME.github.io/database/`.
@@ -22,6 +22,9 @@ Everything you add is saved on that device.
 1. Open the link in **Safari** on your iPhone.
 2. Tap the **Share** button, then **Add to Home Screen**.
 3. Check that **Open as Web App** is on (iOS 26), then tap **Add**.
+
+If the icon shows a screenshot instead of the filing cabinet: delete that Home Screen icon, check that
+`https://YOUR-USERNAME.github.io/database/apple-touch-icon.png` shows the icon in Safari, then add it again.
 
 Open it from the Home Screen icon from then on. It's a separate app from Safari, with its own saved data.
 

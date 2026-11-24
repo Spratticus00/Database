@@ -10,8 +10,8 @@
 <meta name="theme-color" content="#F2F2F7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <title>Database</title>
 <style>
 /* VOICE: a shipped iOS app, nothing else; quiet, exact, system-native.
@@ -510,23 +510,14 @@ async function addPhotos(files, fid, eid) {
   commit();
 }
 const filePick = document.getElementById('filePick');
-/* the classic choice when adding a photo (PhotoSource.swift): Upload Photo, Take Photo, Upload File */
+/* Adding a photo. On iPhone, Safari shows its own Photo Library / Take Photo / Choose File menu for this picker,
+   so the web app opens it directly. (The native app shows the same three choices in PhotoSource.swift,
+   because iOS doesn't offer that combined menu to native apps.) */
 function pickFiles(multiple, cb) {
-  closeOverlays();
-  const ov = document.createElement('div'); ov.className = 'ov dlg'; ovEl.appendChild(ov);
-  ov.innerHTML = `<div class="as" role="dialog" aria-label="Add Photo"><div class="asg"><button type="button" class="asb" data-src="library">Upload Photo</button><button type="button" class="asb" data-src="camera">Take Photo</button><button type="button" class="asb" data-src="file">Upload File</button></div><div class="asg"><button type="button" class="asb bold" data-src="">Cancel</button></div></div>`;
-  ov.addEventListener('click', e => {
-    const b = e.target.closest('[data-src]');
-    if (!b && e.target !== ov) return;
-    closeOverlays();
-    const src = b && b.dataset.src; if (!src) return;
-    filePick.multiple = multiple && src !== 'camera';
-    filePick.accept = src === 'file' ? '.jpg,.jpeg,.png,.heic,.heif,.gif,.webp,.tif,.tiff,.bmp' : 'image/*';
-    if (src === 'camera') filePick.setAttribute('capture', 'environment'); else filePick.removeAttribute('capture');
-    filePick.value = '';
-    filePick.onchange = () => { const f = [...filePick.files]; if (f.length) Promise.resolve().then(() => cb(f)).catch(() => toast('That file isn’t a photo.')); };
-    filePick.click();
-  });
+  filePick.multiple = multiple; filePick.accept = 'image/*'; filePick.removeAttribute('capture');
+  filePick.value = '';
+  filePick.onchange = () => { const f = [...filePick.files]; if (f.length) Promise.resolve().then(() => cb(f)).catch(() => toast('That file isn’t a photo.')); };
+  filePick.click();
 }
 
 /* ---------- formatting ---------- */
