@@ -322,6 +322,8 @@ textarea{resize:none;display:block;overflow:hidden}
 /* Scroll indicator: no always-on scrollbar. Touch screens keep the phone's own indicator;
    with a mouse or trackpad an iPhone-style bar appears only while scrolling. */
 @media (hover:hover) and (pointer:fine){*{scrollbar-width:none}*::-webkit-scrollbar{display:none}}
+/* Edge Glow off: colors stay, the colored light around them goes */
+html[data-glow=off] .hdl,html[data-glow=off] .vh,html[data-glow=off] .fhead .fi,html[data-glow=off] .fbar .add,html[data-glow=off] .sumc{box-shadow:none}
 #sind{position:absolute;right:3px;width:3px;border-radius:2px;background:light-dark(rgba(0,0,0,.35),rgba(255,255,255,.4));opacity:0;transition:opacity .35s;pointer-events:none;z-index:200}
 #sind.on{opacity:1;transition:opacity .08s}
 html[data-mode=app]{--top:env(safe-area-inset-top,0px);--bottom:env(safe-area-inset-bottom,0px);background:var(--bg)}
@@ -788,7 +790,7 @@ function pop() {
 /* each folder keeps its own Grid/List choice; Home uses prefs.layout */
 const layoutOf = f => (f ? f.layout : db.prefs.layout) === 'list' ? 'list' : 'grid';
 const setLayout = (f, v) => { if (f) f.layout = v; else db.prefs.layout = v; commit(); };
-const applyAppearance = () => { const a = db.prefs.appearance; if (a === 'light' || a === 'dark') document.documentElement.dataset.theme = a; else delete document.documentElement.dataset.theme; };
+const applyAppearance = () => { if (db.prefs.glow === false) document.documentElement.dataset.glow = 'off'; else delete document.documentElement.dataset.glow; const a = db.prefs.appearance; if (a === 'light' || a === 'dark') document.documentElement.dataset.theme = a; else delete document.documentElement.dataset.theme; };
 function commit() { save(); applyAppearance(); screens.forEach(s => s.refresh()); [...sheetStack, sheet].forEach(x => { if (x && x.s.refresh) x.s.refresh(); }); }
 const backLabel = s => { const i = screens.indexOf(s); const p = screens[i - 1]; if (!p) return 'Back'; const t = p.type === 'home' ? 'Database' : p.type === 'folder' ? (Fo(p.id)?.name || '') : title(En(p.id) || {title:''}); return t.length > 12 ? 'Back' : t; };
 const backBtn = () => `<button class="nb back" data-act="back">${backChev}<span class="bl"></span></button>`;
@@ -910,7 +912,8 @@ function buildContent(fid) {
       [...(fid ? [{label:'Create PDF List…', icon:P.richtext, run:() => openPdf(fid)}] : []),
        {label:fid ? 'Export CSV…' : 'Export All Data…', icon:P.share, run:() => openExport(fid)},
        {label:'Import CSV…', icon:P.download, run:() => importCSV(fid)}],
-      [['system','System'],['light','Light'],['dark','Dark']].map(([k, l]) => ({label:l + (k === 'system' ? ' (Automatic)' : ' Mode'), check:(db.prefs.appearance || 'system') === k, run:() => { db.prefs.appearance = k; commit(); }}))
+      [['system','System'],['light','Light'],['dark','Dark']].map(([k, l]) => ({label:l + (k === 'system' ? ' (Automatic)' : ' Mode'), check:(db.prefs.appearance || 'system') === k, run:() => { db.prefs.appearance = k; commit(); }})),
+      [{label:'Edge Glow', icon:'M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6', check:db.prefs.glow !== false, run:() => { db.prefs.glow = db.prefs.glow === false; commit(); }}]
     ], true);
     else if (a === 'addmenu') { const kind = kindOf(Fo(fid)), sp = specialChild(kind); openMenu(btn, [
       kind === 'cards' ? [] : [{label:FKIND[kind].newName, icon:P.docPlus, run:() => createEntry(fid)}],
