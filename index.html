@@ -314,8 +314,8 @@ textarea{resize:none;display:block;overflow:hidden}
 .sumc span{font-size:11px;color:light-dark(#7A6447,#D8C4A4)}
 .screen.washed{background:linear-gradient(var(--wash),var(--bg) 320px) var(--bg)}
 .screen.washed:not(.scrolled) .top{background:none}
-.fbar{position:absolute;left:16px;right:16px;bottom:calc(var(--bottom) + 4px);height:56px;padding:0 6px 0 20px;border-radius:28px;border:0;display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--bar);box-shadow:0 8px 24px rgba(60,40,10,.14),inset 0 0 0 .5px rgba(60,40,10,.06)}
-.fbar .nb{margin:0}.fbar .tcount{line-height:1;text-align:left;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--l2w)}
+.fbar{position:absolute;left:16px;right:16px;bottom:calc(var(--bottom) + 4px);height:56px;padding:0 6px;border-radius:28px;border:0;display:grid;grid-template-columns:56px 1fr 56px;align-items:center;gap:4px;background:var(--bar);box-shadow:0 8px 24px rgba(60,40,10,.14),inset 0 0 0 .5px rgba(60,40,10,.06)}
+.fbar .nb{margin:0}.fbar .add.home{justify-self:start}.fbar .tcount{line-height:1;text-align:center;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--l2w)}
 .fbar .add{justify-self:end;width:44px;height:44px;min-width:0;padding:0;border-radius:50%;color:#fff;background:linear-gradient(var(--brass),var(--accent));box-shadow:0 3px 10px color-mix(in srgb,var(--accent) 40%,transparent)}
 .fbar .add:active{opacity:.7}
 .screen .content{padding-bottom:calc(84px + var(--bottom))}
@@ -323,7 +323,7 @@ textarea{resize:none;display:block;overflow:hidden}
    with a mouse or trackpad an iPhone-style bar appears only while scrolling. */
 @media (hover:hover) and (pointer:fine){*{scrollbar-width:none}*::-webkit-scrollbar{display:none}}
 /* Edge Glow off: colors stay, the colored light around them goes */
-html[data-glow=off] .hdl,html[data-glow=off] .vh,html[data-glow=off] .fhead .fi,html[data-glow=off] .fbar .add,html[data-glow=off] .sumc{box-shadow:none}
+html[data-glow=off] .hdl,html[data-glow=off] .vh,html[data-glow=off] .fhead .fi,html[data-glow=off] .fbar .add,html[data-glow=off] .fbar .home,html[data-glow=off] .sumc{box-shadow:none}
 #sind{position:absolute;right:3px;width:3px;border-radius:2px;background:light-dark(rgba(0,0,0,.35),rgba(255,255,255,.4));opacity:0;transition:opacity .35s;pointer-events:none;z-index:200}
 #sind.on{opacity:1;transition:opacity .08s}
 html[data-mode=app]{--top:env(safe-area-inset-top,0px);--bottom:env(safe-area-inset-bottom,0px);background:var(--bg)}
@@ -394,9 +394,14 @@ const FKIND = {
   binder:{title:'Binder', summary:'One long scrolling binder of cards. Pinch, or use the zoom buttons, to choose how many cards fit across.', tpl:'card', newName:'New Card'},
   set:{title:'Set', summary:'One long scrolling set of cars. Pinch, or use the zoom buttons, to choose how many cars fit across.', tpl:'car', newName:'New Car'}
 };
-const kindOptions = (parentKind, current) => Object.keys(FKIND).filter(k => k === 'binder' ? parentKind === 'cards' || current === 'binder' : k === 'set' ? parentKind === 'cars' || current === 'set' : true);
+/* Binders anywhere inside a Cards folder, Sets anywhere inside a Cars folder; `special` is what the parent offers */
+const kindOptions = (special, current) => Object.keys(FKIND).filter(k => k === 'binder' ? special === 'binder' || current === 'binder' : k === 'set' ? special === 'set' || current === 'set' : true);
 const specialChild = k => ({cards:'binder', cars:'set'})[k] || null;
 const isZoomGrid = k => k === 'binder' || k === 'set';
+/* nearest Cars or Cards folder this one is in (itself included), at any depth */
+const collectionKindOf = f => { for (let c = f; c; c = Fo(c.parent)) { const k = kindOf(c); if (k === 'cars' || k === 'cards') return k; } return null; };
+/* New Set / New Binder next to New Folder; Sets and Binders don't hold more of them */
+const specialChildOf = f => !f || isZoomGrid(kindOf(f)) ? null : specialChild(collectionKindOf(f));
 /* card styles and detail library (CardStyle.swift) */
 const CARD_STYLES = {
   sports:{title:'Sports', details:[['Player'],['Year'],['Brand'],['Set'],['Card Number'],['Team'],['Rookie Card','toggle']]},
@@ -781,6 +786,17 @@ function push(s) {
   anim(s.el, 'translateX(0)'); anim(prev.el, 'translateX(-30%)'); prev.el.classList.add('under');
   setTimeout(() => busy = false, 430);
 }
+/* Home button: back to the main page in one step (on Home itself, scroll to the top) */
+function popToRoot() {
+  if (busy) return;
+  if (screens.length < 2) { const sc = screens[0].el.querySelector('.scroll'); if (sc) sc.scrollTo({top:0, behavior:'smooth'}); return; }
+  busy = true;
+  const cur = screens.pop(), root = screens[0];
+  screens.splice(1).forEach(m => m.el.remove());
+  root.refresh();
+  anim(cur.el, 'translateX(100%)'); anim(root.el, 'translateX(0)'); root.el.classList.remove('under');
+  setTimeout(() => { cur.el.remove(); busy = false; }, 430);
+}
 function pop() {
   if (screens.length < 2 || busy) return; busy = true;
   const cur = screens.pop(), prev = screens[screens.length - 1]; prev.refresh();
@@ -823,7 +839,7 @@ function buildContent(fid) {
     <div class="scroll"><h1 class="lt"></h1>
     ${`<div class="srow"><label class="sfield">${svg(P.search, 17, 2.4)}<input class="sq" type="search" placeholder="${fid ? 'Search ' + esc(Fo(fid).name) : 'Search everything'}" enterkeyhint="search" autocomplete="off" aria-label="${fid ? 'Search this folder' : 'Search everything'}"><button class="sclear" type="button" data-act="sclear" aria-label="Clear text">${circ('M8.5 8.5l7 7M15.5 8.5l-7 7', 17, 'var(--l3)')}</button></label><button class="scancel" type="button" data-act="scancel">Cancel</button></div>`}
     <div class="content"></div><div class="results"></div></div>
-    <div class="toolbar fbar"><span class="tcount"></span><button class="nb add" data-act="addmenu" aria-label="Add">${svg('M12 5v14M5 12h14', 22, 3)}</button></div>`;
+    <div class="toolbar fbar"><button class="nb add home" data-act="gohome" aria-label="Home">${glyph('house.fill', 19, 'currentColor')}</button><span class="tcount"></span><button class="nb add" data-act="addmenu" aria-label="Add">${svg('M12 5v14M5 12h14', 22, 3)}</button></div>`;
   const sc = $('.scroll', el), content = $('.content', el), results = $('.results', el), q = $('.sq', el);
   sc.addEventListener('scroll', () => el.classList.toggle('scrolled', sc.scrollTop > 40));
   const zoomBinder = d => { const fo = Fo(fid); if (!fo) return; const n = Math.min(6, Math.max(1, (fo.cardsPerRow || 3) + d)); if (n !== fo.cardsPerRow) { fo.cardsPerRow = n; commit(); } };
@@ -876,7 +892,7 @@ function buildContent(fid) {
     if (!subs.length && !ents.length && !phs.length && !(isZoomGrid(kind) && lay === 'grid')) h += `<div class="empty"><span style="color:var(--l2)">${svg(P.stack, 46, 1.6)}</span><h3>${!fid ? 'Build your database' : kind === 'cars' ? 'No cars yet' : kind === 'cards' ? 'No binders yet' : 'This folder is empty'}</h3><p>${kind === 'cars' ? 'Add a car with its picture, year, color and set. Each car appears here as a photo.' : kind === 'cards' ? 'Add a binder to start organizing your cards, or a folder to group your binders.' : 'Create folders inside folders as deep as you like, then add items with your own custom fields and photos.'}</p>`
       + (kind === 'cards' ? `<div class="bt"><button class="bp" data-act="newbinder">${glyph('book.closed.fill', 16, 'currentColor')} New Binder</button><button class="bb" data-act="newfolder">${svg(P.folderPlus, 18, 2)} New Folder</button></div></div>`
         : `<div class="bt"><button class="bp" data-act="newfolder">${svg(P.folderPlus, 18, 2)} New Folder</button><button class="bb" data-act="newentry">${svg(P.docPlus, 18, 2)} ${FKIND[kind].newName}</button></div><button class="bb solo" data-act="addphotos">${svg(P.photoPlus, 18, 2)} Add Photos</button></div>`);
-    if (subs.length) h += `<div class="sec"><div class="sh">${kind === 'cards' && subs.every(x => kindOf(x) === 'binder') ? 'Binders' : kind === 'cars' && subs.every(x => kindOf(x) === 'set') ? 'Sets' : 'Folders'}</div>` + (lay === 'grid'
+    if (subs.length) h += `<div class="sec"><div class="sh">${subs.every(x => kindOf(x) === 'binder') ? 'Binders' : subs.every(x => kindOf(x) === 'set') ? 'Sets' : 'Folders'}</div>` + (lay === 'grid'
       ? `<div class="grid">${subs.map(c => `<div class="card dr tap" data-folder="${c.id}" style="--c:#${c.color}"><div class="hd">${fIcon(c.icon, c.color, 40, c.iconImg)}${c.pinned ? `<span class="pin">${svg(P.pin, 13, 2.2)}</span>` : ''}</div><div class="lbl"><div class="nm">${esc(c.name)}</div><div class="sub">${esc(summary(c))}</div></div><span class="hdl"></span></div>`).join('')}</div>`
       : `<div class="vlist">${subs.map(c => `<div class="drow tap" data-folder="${c.id}" style="--c:#${c.color}">${fIcon(c.icon, c.color, 36, c.iconImg)}<div class="tx"><div class="m">${esc(c.name)}</div><div class="sub">${esc(summary(c))}</div></div>${c.pinned ? `<span class="pin">${svg(P.pin, 13, 2.2)}</span>` : ''}<span class="vh"></span></div>`).join('')}</div>`) + `</div>`;
     const special = kind === 'cars' || isZoomGrid(kind) ? FKIND[kind].tpl : null, gal = special ? ents.filter(e => tplOf(e) === special) : [];
@@ -915,7 +931,8 @@ function buildContent(fid) {
       [['system','System'],['light','Light'],['dark','Dark']].map(([k, l]) => ({label:l + (k === 'system' ? ' (Automatic)' : ' Mode'), check:(db.prefs.appearance || 'system') === k, run:() => { db.prefs.appearance = k; commit(); }})),
       [{label:'Edge Glow', icon:'M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6', check:db.prefs.glow !== false, run:() => { db.prefs.glow = db.prefs.glow === false; commit(); }}]
     ], true);
-    else if (a === 'addmenu') { const kind = kindOf(Fo(fid)), sp = specialChild(kind); openMenu(btn, [
+    else if (a === 'gohome') popToRoot();
+    else if (a === 'addmenu') { const kind = kindOf(Fo(fid)), sp = specialChildOf(Fo(fid)); openMenu(btn, [
       kind === 'cards' ? [] : [{label:FKIND[kind].newName, icon:P.docPlus, run:() => createEntry(fid)}],
       [{label:'New Folder', icon:P.folderPlus, run:() => openFolderEditor({parent:fid})},
        ...(sp ? [{label:sp === 'binder' ? 'New Binder' : 'New Set', icon:sp === 'binder' ? P.richtext : P.stack, run:() => openFolderEditor({parent:fid, initialKind:sp})}] : [])],
@@ -1232,7 +1249,7 @@ function openColorWheel(hex, done) {
 /* Folder editor sheet */
 function openFolderEditor({parent = null, edit = null, initialKind = null}) {
   const f = Fo(edit);
-  const parentKind = f ? (Fo(f.parent) ? kindOf(Fo(f.parent)) : null) : (Fo(parent) ? kindOf(Fo(parent)) : null);
+  const parentSpecial = specialChildOf(f ? Fo(f.parent) : Fo(parent));
   const sug = f ? null : initialKind;
   const st = f ? {name:f.name, kind:kindOf(f), symbol:f.icon, color:f.color, img:f.iconImg || null, usePhoto:!!f.iconImg, temp:[]}
     : sug ? {name:'', kind:sug, symbol:kindSymbol(sug), color:kindColor(sug), img:null, usePhoto:false, temp:[]}
@@ -1244,7 +1261,7 @@ function openFolderEditor({parent = null, edit = null, initialKind = null}) {
   el.innerHTML = `<div class="top"><div class="navbar"><div class="nl"><button class="nb" data-act="cancel">Cancel</button></div><div class="nt show">${f ? 'Edit Folder' : newTitle}</div><div class="nr"><button class="nb bold sv" data-act="save">${f ? 'Save' : 'Create'}</button></div></div></div>
     <div class="scroll"><div class="fsec"><div class="prev"><span class="pic"></span><div class="pname"></div></div></div>
     <div class="fsec"><div class="fcard"><div class="frow"><input class="fname" placeholder="Folder name" enterkeyhint="done" aria-label="Folder name" autocapitalize="words"></div></div></div>
-    <div class="fsec"><div class="fh">Folder Type</div><div class="seg kseg" role="radiogroup" aria-label="Folder Type">${kindOptions(parentKind, st.kind).map(k => `<button type="button" role="radio" data-act="kind" data-v="${k}">${FKIND[k].title}</button>`).join('')}</div><div class="ff ksum"></div></div>
+    <div class="fsec"><div class="fh">Folder Type</div><div class="seg kseg" role="radiogroup" aria-label="Folder Type">${kindOptions(parentSpecial, st.kind).map(k => `<button type="button" role="radio" data-act="kind" data-v="${k}">${FKIND[k].title}</button>`).join('')}</div><div class="ff ksum"></div></div>
     <div class="pkhost"></div></div>`;
   const name = $('.fname', el); name.value = st.name;
   const trimmed = () => st.name.trim();
