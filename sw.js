@@ -1,7 +1,7 @@
 /* Keeps Database working offline after the first visit.
    Shows the saved copy right away and fetches any update in the background,
    so a new version appears the next time the app is opened. */
-const CACHE = 'database-v2';
+const CACHE = 'database-v7';
 const FILES = ['./', './index.html', './pdf-lib.min.js', './manifest.webmanifest',
   './apple-touch-icon.png', './icon-192.png', './icon-512.png', './favicon-32.png'];
 

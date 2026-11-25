@@ -7,8 +7,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Database">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="theme-color" content="#F2F2F7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FAF7F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E0D0B" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -17,16 +17,16 @@
 /* VOICE: a shipped iOS app, nothing else; quiet, exact, system-native.
    IDEA: the phone itself — the preview behaves like the SwiftUI build, screen for screen.
    PICTURE: the running app inside an iPhone frame (full-screen on a phone).
-   COLOUR and TYPE: iOS system palette + AccentColor #5E5CE6; SF via -apple-system.
+   COLOUR and TYPE: Cabinet + Soft Color: warm ground #FAF7F2, brass accent #A0692B, folders as tinted drawers; SF Rounded titles.
    LAYOUT: device centred, a slim notes column beside it on wide screens. */
 :root{color-scheme:light dark;
---bg:light-dark(#F2F2F7,#000);--card:light-dark(#fff,#1C1C1E);
---sbg:light-dark(#F2F2F7,#1C1C1E);--scard:light-dark(#fff,#2C2C2E);
+--bg:light-dark(#FAF7F2,#0E0D0B);--card:light-dark(#fff,#1C1C1E);
+--sbg:light-dark(#FAF7F2,#0E0D0B);--scard:light-dark(#fff,#2C2C2E);
 --label:light-dark(#000,#fff);--l2:light-dark(rgba(60,60,67,.6),rgba(235,235,245,.6));--l3:light-dark(rgba(60,60,67,.3),rgba(235,235,245,.3));
 --sep:light-dark(rgba(60,60,67,.29),rgba(84,84,88,.65));--fill:light-dark(rgba(118,118,128,.12),rgba(118,118,128,.24));
 --bar:light-dark(rgba(249,249,249,.94),rgba(22,22,22,.94));--menu:light-dark(rgba(246,246,246,.94),rgba(37,37,37,.94));
 --msep:light-dark(rgba(60,60,67,.2),rgba(84,84,88,.6));--mgap:light-dark(rgba(0,0,0,.07),rgba(0,0,0,.45));
---accent:#5E5CE6;--red:light-dark(#FF3B30,#FF453A);--green:light-dark(#34C759,#30D158);--yellow:light-dark(#FFCC00,#FFD60A);
+--accent:light-dark(#A0692B,#D19A57);--brass:#C08A48;--ink:light-dark(#2B2F38,#F2EEE8);--l2w:light-dark(#7A6C58,rgba(242,238,232,.6));--doc:light-dark(#F3EADB,#2E2921);--docg:light-dark(#8A7354,#C9B89C);--shade:rgba(60,40,10,.07);--rnd:ui-rounded,'SF Pro Rounded',-apple-system,system-ui,sans-serif;--red:light-dark(#FF3B30,#FF453A);--green:light-dark(#34C759,#30D158);--yellow:light-dark(#FFCC00,#FFD60A);
 --stage:light-dark(#E6E6EB,#0C0C0E);--top:54px;--bottom:34px}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
@@ -71,13 +71,13 @@ textarea{resize:none;display:block;overflow:hidden}
 .scrolled .top{background:var(--bar);-webkit-backdrop-filter:blur(20px) saturate(1.8);backdrop-filter:blur(20px) saturate(1.8);box-shadow:0 .5px 0 var(--sep)}
 .navbar{height:44px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;padding:0 8px}
 .nl{justify-self:start;display:flex;min-width:0;max-width:100%}.nr{justify-self:end;display:flex;align-items:center}
-.nt{font-weight:600;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;opacity:0;transition:opacity .15s}
+.nt{font-family:var(--rnd);font-weight:700;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;opacity:0;transition:opacity .15s}
 .scrolled .nt,.nt.show{opacity:1}
 .nb{min-width:44px;height:44px;border:0;background:none;color:var(--accent);font-size:17px;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:0 8px;white-space:nowrap}
 .nb.bold{font-weight:600}.nb:disabled{color:var(--l3);cursor:default}.nb:active:not(:disabled){opacity:.4}
 .back{padding-left:0;max-width:150px;overflow:hidden}.back span{overflow:hidden;text-overflow:ellipsis}
 .scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;position:relative}
-.lt{font-size:34px;font-weight:700;letter-spacing:.37px;line-height:41px;margin:0;padding:3px 16px 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lt{font-family:var(--rnd);font-size:34px;font-weight:800;letter-spacing:.37px;line-height:41px;margin:0;padding:3px 16px 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .srow{display:flex;align-items:center;padding:0 16px 8px;gap:0}
 .sfield{flex:1;height:36px;border-radius:10px;background:var(--fill);display:flex;align-items:center;gap:6px;padding:0 6px 0 8px;color:var(--l2)}
 .sfield input{flex:1;font-size:17px}
@@ -92,7 +92,7 @@ textarea{resize:none;display:block;overflow:hidden}
 .loc{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--l2);padding:0 4px;white-space:nowrap;overflow:hidden}
 .loc span{overflow:hidden;text-overflow:ellipsis}
 .sec{display:flex;flex-direction:column;gap:8px}
-.sh{font-size:13px;font-weight:600;color:var(--l2);text-transform:uppercase;padding:0 4px}
+.sh{font-family:var(--rnd);font-size:20px;font-weight:700;color:var(--label);padding:0 4px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 .card{padding:14px;border-radius:18px;background:var(--card);display:flex;flex-direction:column;gap:12px}
 .card .hd{display:flex;justify-content:space-between;align-items:flex-start;color:var(--l2)}
@@ -215,7 +215,7 @@ textarea{resize:none;display:block;overflow:hidden}
 .vpage{flex:none;width:100%;height:100%;scroll-snap-align:center;display:flex;align-items:center;justify-content:center}
 .vpage img{max-width:100%;max-height:100%;object-fit:contain}
 .toast{position:absolute;left:50%;bottom:calc(var(--bottom) + 70px);transform:translateX(-50%);z-index:95;background:rgba(40,40,40,.92);color:#fff;font-size:15px;padding:10px 16px;border-radius:14px;max-width:86%;text-align:center;animation:fade .2s}
-.qb{font-size:12px;font-weight:600;color:var(--l2);background:var(--fill);border-radius:999px;padding:2px 7px;flex:none}
+.qb{font-size:12px;font-weight:700;color:var(--docg);background:var(--doc);border-radius:999px;padding:2px 8px;flex:none}
 .qrow{gap:12px}.ql{flex:1;display:flex;align-items:center;gap:12px}.ql svg{color:var(--accent)}
 .qin{width:80px;text-align:right;font-size:17px}
 .stepper{display:flex;align-items:center;height:32px;border-radius:8px;background:var(--fill);flex:none}
@@ -248,12 +248,12 @@ textarea{resize:none;display:block;overflow:hidden}
 .covpad{padding:12px 16px}
 #viewer .vsingle{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}#viewer .vsingle img{max-width:100%;max-height:100%;object-fit:contain}
 .binder{display:flex;flex-direction:column;gap:14px}
-.bctl{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:12px;padding:8px 14px;font-size:15px}
+.bctl{display:flex;align-items:center;gap:12px;background:var(--card);box-shadow:0 1px 3px var(--shade);border-radius:12px;padding:8px 14px;font-size:15px}
 .bctl .bl{flex:1;display:flex;align-items:center;gap:8px}.bctl .bl svg{color:var(--accent)}.bctl b{font-size:17px;font-variant-numeric:tabular-nums}
-.pocket{position:relative;aspect-ratio:5/7;border-radius:6px;background:var(--fill) center/contain no-repeat;background-origin:content-box;padding:3px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--l2);text-align:center;font-size:11px;font-weight:600;overflow:hidden}
+.pocket{position:relative;aspect-ratio:5/7;border-radius:6px;background:var(--doc) center/contain no-repeat;background-origin:content-box;padding:3px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--l2);text-align:center;font-size:11px;font-weight:600;overflow:hidden}
 .pocket::after{content:"";position:absolute;inset:0;border-radius:6px;background:linear-gradient(135deg,rgba(255,255,255,.28),transparent 45%);box-shadow:inset 0 0 0 .5px rgba(255,255,255,.45);pointer-events:none}
 .pocket .gq{top:4px;right:4px;font-size:10px;padding:2px 5px}
-.bgrid2{display:grid;background:var(--card);border-radius:14px;touch-action:pan-y;transition:gap .25s,padding .25s}
+.bgrid2{display:grid;background:var(--card);box-shadow:0 1px 3px var(--shade);border-radius:14px;touch-action:pan-y;transition:gap .25s,padding .25s}
 .bctl .zb{border:0;background:none;color:var(--accent);width:36px;height:36px;display:flex;align-items:center;justify-content:center;padding:0}
 .bctl .zb:disabled{color:var(--l3)}
 .bempty{text-align:center;color:var(--l2);font-size:15px;padding:40px 0}
@@ -290,6 +290,40 @@ textarea{resize:none;display:block;overflow:hidden}
 .cwsw{width:64px;height:64px;border-radius:14px;flex:none}
 .cwhex small{display:block;font-size:12px;font-weight:600;color:var(--l2)}.cwhex input{font:20px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase}
 /* Home-screen web app (GitHub Pages build sets data-mode="app"): just the app, edge to edge */
+/* Cabinet + Soft Color: drawers, item cards, summary card, floating bar */
+.dr{--c:#0A84FF;padding:12px 12px 16px;border-radius:20px;display:flex;flex-direction:column;gap:10px;background:linear-gradient(to top,color-mix(in srgb,var(--c) 24%,var(--card)) 6px,color-mix(in srgb,var(--c) 13%,var(--card)) 6px)}
+.dr .hd{display:flex;justify-content:space-between;align-items:flex-start}
+.dr .pin,.drow .pin{color:color-mix(in srgb,var(--c) 55%,var(--ink))}
+.lbl{background:var(--card);border:1.5px solid color-mix(in srgb,var(--c) 32%,var(--card));border-radius:10px;padding:7px 10px}
+.lbl .nm{font-family:var(--rnd);font-size:15px;font-weight:800;color:color-mix(in srgb,var(--c) 55%,var(--ink))}
+.lbl .sub,.drow .sub,.icard .sub{color:var(--l2w)}.lbl .sub{font-size:11px;margin-top:1px}
+.hdl{align-self:center;width:58px;height:8px;border-radius:4px;background:var(--c);box-shadow:0 2px 6px color-mix(in srgb,var(--c) 45%,transparent)}
+.vlist{display:flex;flex-direction:column;gap:8px}
+.drow{--c:#0A84FF;display:flex;align-items:center;gap:12px;padding:10px 14px 10px 12px;border-radius:16px;background:linear-gradient(to top,color-mix(in srgb,var(--c) 24%,var(--card)) 4px,color-mix(in srgb,var(--c) 13%,var(--card)) 4px)}
+.drow .tx{flex:1;min-width:0}.drow .m{font-family:var(--rnd);font-size:17px;font-weight:700;color:color-mix(in srgb,var(--c) 55%,var(--ink));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vh{flex:none;width:7px;height:30px;border-radius:4px;background:var(--c);box-shadow:0 1px 4px color-mix(in srgb,var(--c) 40%,transparent)}
+.icard{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:16px;background:var(--card);box-shadow:0 1px 3px var(--shade)}
+.icard .tx{flex:1;min-width:0}.icard .m{font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.di{background:var(--doc)!important;color:var(--docg)!important}
+.fhead{display:flex;align-items:center;gap:12px;padding:0 4px;font-size:13px;color:var(--l2w);line-height:1.3}
+.fhead .fi{box-shadow:0 3px 12px color-mix(in srgb,var(--c) 30%,transparent)}
+.fhead span.t{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sumc{display:flex;gap:8px;padding:12px 14px 17px;border-radius:20px;background:linear-gradient(to top,rgba(160,105,43,.12) 5px,transparent 5px),linear-gradient(135deg,light-dark(#F6EBD8,#3B3022),light-dark(#E6CC9F,#5C4728));box-shadow:0 6px 20px rgba(160,105,43,.18)}
+.sumc div{flex:1;text-align:center;padding:6px 0;border-radius:10px;background:light-dark(rgba(255,255,255,.7),rgba(0,0,0,.25));border:1.5px solid rgba(110,90,60,.25)}
+.sumc b{display:block;font-family:var(--rnd);font-size:22px;font-weight:900;line-height:1.2;color:light-dark(#3E3424,#F2E6D2)}
+.sumc span{font-size:11px;color:light-dark(#7A6447,#D8C4A4)}
+.screen.washed{background:linear-gradient(var(--wash),var(--bg) 320px) var(--bg)}
+.screen.washed:not(.scrolled) .top{background:none}
+.fbar{position:absolute;left:16px;right:16px;bottom:calc(var(--bottom) + 4px);height:56px;padding:0 6px 0 20px;border-radius:28px;border:0;display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--bar);box-shadow:0 8px 24px rgba(60,40,10,.14),inset 0 0 0 .5px rgba(60,40,10,.06)}
+.fbar .nb{margin:0}.fbar .tcount{line-height:1;text-align:left;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--l2w)}
+.fbar .add{justify-self:end;width:44px;height:44px;min-width:0;padding:0;border-radius:50%;color:#fff;background:linear-gradient(var(--brass),var(--accent));box-shadow:0 3px 10px color-mix(in srgb,var(--accent) 40%,transparent)}
+.fbar .add:active{opacity:.7}
+.screen .content{padding-bottom:calc(84px + var(--bottom))}
+/* Scroll indicator: no always-on scrollbar. Touch screens keep the phone's own indicator;
+   with a mouse or trackpad an iPhone-style bar appears only while scrolling. */
+@media (hover:hover) and (pointer:fine){*{scrollbar-width:none}*::-webkit-scrollbar{display:none}}
+#sind{position:absolute;right:3px;width:3px;border-radius:2px;background:light-dark(rgba(0,0,0,.35),rgba(255,255,255,.4));opacity:0;transition:opacity .35s;pointer-events:none;z-index:200}
+#sind.on{opacity:1;transition:opacity .08s}
 html[data-mode=app]{--top:env(safe-area-inset-top,0px);--bottom:env(safe-area-inset-bottom,0px);background:var(--bg)}
 html[data-mode=app] body{background:var(--bg);touch-action:manipulation;overscroll-behavior:none}
 html[data-mode=app] #stage{display:block;padding:0;height:100vh;height:100dvh}
@@ -459,6 +493,7 @@ const KIND = Object.fromEntries(KINDS.map(k => [k[0], {title:k[1], icon:k[2]}]))
 const svg = (d, s = 20, w = 2, c = 'currentColor') => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
 const circ = (inner, s, bg) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" style="fill:${bg}"/><path d="${inner}" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg>`;
 const starFill = s => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><path d="${P.star}" style="fill:var(--yellow);stroke:var(--yellow)" stroke-width="1.2" stroke-linejoin="round"/></svg>`;
+const gearIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M10.16 4.63 L10.47 2.32 L13.53 2.32 L13.84 4.63 L15.91 5.49 L17.76 4.07 L19.93 6.24 L18.51 8.09 L19.37 10.16 L21.68 10.47 L21.68 13.53 L19.37 13.84 L18.51 15.91 L19.93 17.76 L17.76 19.93 L15.91 18.51 L13.84 19.37 L13.53 21.68 L10.47 21.68 L10.16 19.37 L8.09 18.51 L6.24 19.93 L4.07 17.76 L5.49 15.91 L4.63 13.84 L2.32 13.53 L2.32 10.47 L4.63 10.16 L5.49 8.09 L4.07 6.24 L6.24 4.07 L8.09 5.49Z"/><circle cx="12" cy="12" r="3.2"/></svg>`;
 const ellipsisC = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="7.8" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="16.2" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>`;
 const backChev = `<svg width="13" height="21" viewBox="0 0 13 21" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 2L2.5 10.5 11 19"/></svg>`;
 const chev = `<span class="chev">${svg(P.chevR, 13, 3)}</span>`;
@@ -470,7 +505,7 @@ const fIcon = (icon, hex, size, img) => {
 };
 const hasIcon = e => !!(e.icon || e.iconImg);
 const entryIcon = (e, size) => tplOf(e) !== 'standard' ? fIcon(TPL[tplOf(e)].symbol, TPL[tplOf(e)].color, size, e.cover ? 'ct:' + e.cover : null) : hasIcon(e) ? fIcon(e.icon || 'doc.text.fill', e.color || '0A84FF', size, e.iconImg)
-  : `<span class="di" style="width:${size}px;height:${size}px;border-radius:${(size * .28).toFixed(1)}px">${svg(P.doc, Math.round(size * .5), 1.8)}</span>`;
+  : `<span class="di" style="width:${size}px;height:${size}px;border-radius:${(size * .28).toFixed(1)}px">${glyph('doc.text.fill', Math.round(size * .47), 'currentColor')}</span>`;
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 /* ---------- photo storage (IndexedDB; the app stores the same JPEGs in SwiftData) ---------- */
@@ -750,7 +785,11 @@ function pop() {
   anim(cur.el, 'translateX(100%)'); anim(prev.el, 'translateX(0)'); prev.el.classList.remove('under');
   setTimeout(() => { cur.el.remove(); busy = false; }, 430);
 }
-function commit() { save(); screens.forEach(s => s.refresh()); [...sheetStack, sheet].forEach(x => { if (x && x.s.refresh) x.s.refresh(); }); }
+/* each folder keeps its own Grid/List choice; Home uses prefs.layout */
+const layoutOf = f => (f ? f.layout : db.prefs.layout) === 'list' ? 'list' : 'grid';
+const setLayout = (f, v) => { if (f) f.layout = v; else db.prefs.layout = v; commit(); };
+const applyAppearance = () => { const a = db.prefs.appearance; if (a === 'light' || a === 'dark') document.documentElement.dataset.theme = a; else delete document.documentElement.dataset.theme; };
+function commit() { save(); applyAppearance(); screens.forEach(s => s.refresh()); [...sheetStack, sheet].forEach(x => { if (x && x.s.refresh) x.s.refresh(); }); }
 const backLabel = s => { const i = screens.indexOf(s); const p = screens[i - 1]; if (!p) return 'Back'; const t = p.type === 'home' ? 'Database' : p.type === 'folder' ? (Fo(p.id)?.name || '') : title(En(p.id) || {title:''}); return t.length > 12 ? 'Back' : t; };
 const backBtn = () => `<button class="nb back" data-act="back">${backChev}<span class="bl"></span></button>`;
 
@@ -778,11 +817,11 @@ function buildContent(fid) {
   const s = {type: fid ? 'folder' : 'home', id: fid, q: ''};
   const el = s.el = document.createElement('div'); el.className = 'screen';
   el.innerHTML = `<div class="top"><div class="navbar"><div class="nl">${fid ? backBtn() : ''}</div><div class="nt"></div>
-    <div class="nr"><button class="nb" data-act="viewmenu" aria-label="View and sort options">${ellipsisC}</button></div></div></div>
+    <div class="nr"><button class="nb" data-act="viewmenu" aria-label="Settings">${gearIcon}</button></div></div></div>
     <div class="scroll"><h1 class="lt"></h1>
     ${`<div class="srow"><label class="sfield">${svg(P.search, 17, 2.4)}<input class="sq" type="search" placeholder="${fid ? 'Search ' + esc(Fo(fid).name) : 'Search everything'}" enterkeyhint="search" autocomplete="off" aria-label="${fid ? 'Search this folder' : 'Search everything'}"><button class="sclear" type="button" data-act="sclear" aria-label="Clear text">${circ('M8.5 8.5l7 7M15.5 8.5l-7 7', 17, 'var(--l3)')}</button></label><button class="scancel" type="button" data-act="scancel">Cancel</button></div>`}
     <div class="content"></div><div class="results"></div></div>
-    <div class="toolbar"><span class="tl"><button class="nb" data-act="newfolder" aria-label="New Folder">${svg(P.folderPlus, 26, 1.8)}</button><button class="nb" data-act="addphotos" aria-label="Add Photos">${svg(P.photoPlus, 25, 1.8)}</button></span><span class="tcount"></span><button class="nb" data-act="newentry" aria-label="New Item">${svg(P.compose, 24, 1.8)}</button></div>`;
+    <div class="toolbar fbar"><span class="tcount"></span><button class="nb add" data-act="addmenu" aria-label="Add">${svg('M12 5v14M5 12h14', 22, 3)}</button></div>`;
   const sc = $('.scroll', el), content = $('.content', el), results = $('.results', el), q = $('.sq', el);
   sc.addEventListener('scroll', () => el.classList.toggle('scrolled', sc.scrollTop > 40));
   const zoomBinder = d => { const fo = Fo(fid); if (!fo) return; const n = Math.min(6, Math.max(1, (fo.cardsPerRow || 3) + d)); if (n !== fo.cardsPerRow) { fo.cardsPerRow = n; commit(); } };
@@ -827,33 +866,36 @@ function buildContent(fid) {
     if (fid && q) q.placeholder = 'Search ' + t;
     const bl = $('.bl', el); if (bl) bl.textContent = backLabel(s);
     const subs = sortF(kidsF(fid)), ents = sortE(kidsE(fid)), phs = photosOf(fid, null), kind = kindOf(f);
-    const nb = $('[data-act=newentry]', el.querySelector('.toolbar')); nb.setAttribute('aria-label', FKIND[kind].newName);
-    nb.style.visibility = kind === 'cards' ? 'hidden' : '';
-    $('[data-act=newfolder]', el.querySelector('.toolbar')).setAttribute('aria-label', kind === 'cards' ? 'New Folder or Binder' : kind === 'cars' ? 'New Folder or Set' : 'New Folder');
     let h = '';
-    if (fid) h += `<div class="loc">${svg(P.folder, 14, 2)}<span>${esc(folderLoc(f))}</span></div>`;
-    if (!subs.length && !ents.length && !phs.length && !isZoomGrid(kind)) h += `<div class="empty"><span style="color:var(--l2)">${svg(P.stack, 46, 1.6)}</span><h3>${!fid ? 'Build your database' : kind === 'cars' ? 'No cars yet' : kind === 'cards' ? 'No binders yet' : 'This folder is empty'}</h3><p>${kind === 'cars' ? 'Add a car with its picture, year, color and set. Each car appears here as a photo.' : kind === 'cards' ? 'Add a binder to start organizing your cards, or a folder to group your binders.' : 'Create folders inside folders as deep as you like, then add items with your own custom fields and photos.'}</p>`
+    el.classList.toggle('washed', !!fid); if (fid) el.style.setProperty('--wash', `color-mix(in srgb,#${f.color} 20%,var(--bg))`);
+    if (fid) h += `<div class="fhead" style="--c:#${f.color}">${fIcon(f.icon, f.color, 48, f.iconImg)}<span class="t">${esc(folderLoc(f))} · ${esc(summary(f))}</span></div>`;
+    else { const nf = Object.keys(db.folders).length, ne = Object.keys(db.entries).length; if (nf + ne) h += `<div class="sumc" role="group" aria-label="Totals"><div><b>${nf}</b><span>Folders</span></div><div><b>${ne}</b><span>Items</span></div><div><b>${Object.keys(db.photos).length}</b><span>Photos</span></div></div>`; }
+    const lay = layoutOf(f);
+    if (!subs.length && !ents.length && !phs.length && !(isZoomGrid(kind) && lay === 'grid')) h += `<div class="empty"><span style="color:var(--l2)">${svg(P.stack, 46, 1.6)}</span><h3>${!fid ? 'Build your database' : kind === 'cars' ? 'No cars yet' : kind === 'cards' ? 'No binders yet' : 'This folder is empty'}</h3><p>${kind === 'cars' ? 'Add a car with its picture, year, color and set. Each car appears here as a photo.' : kind === 'cards' ? 'Add a binder to start organizing your cards, or a folder to group your binders.' : 'Create folders inside folders as deep as you like, then add items with your own custom fields and photos.'}</p>`
       + (kind === 'cards' ? `<div class="bt"><button class="bp" data-act="newbinder">${glyph('book.closed.fill', 16, 'currentColor')} New Binder</button><button class="bb" data-act="newfolder">${svg(P.folderPlus, 18, 2)} New Folder</button></div></div>`
         : `<div class="bt"><button class="bp" data-act="newfolder">${svg(P.folderPlus, 18, 2)} New Folder</button><button class="bb" data-act="newentry">${svg(P.docPlus, 18, 2)} ${FKIND[kind].newName}</button></div><button class="bb solo" data-act="addphotos">${svg(P.photoPlus, 18, 2)} Add Photos</button></div>`);
-    if (subs.length) h += `<div class="sec"><div class="sh">${kind === 'cards' && subs.every(x => kindOf(x) === 'binder') ? 'Binders' : kind === 'cars' && subs.every(x => kindOf(x) === 'set') ? 'Sets' : 'Folders'}</div>` + (db.prefs.layout === 'grid'
-      ? `<div class="grid">${subs.map(c => `<div class="card tap" data-folder="${c.id}"><div class="hd">${fIcon(c.icon, c.color, 44, c.iconImg)}${c.pinned ? `<span class="pin">${svg(P.pin, 13, 2.2)}</span>` : ''}</div><div><div class="nm">${esc(c.name)}</div><div class="sub">${esc(summary(c))}</div></div></div>`).join('')}</div>`
-      : `<div class="cstack">${subs.map(c => `<div class="row tap" data-folder="${c.id}">${fIcon(c.icon, c.color, 36, c.iconImg)}<div class="tx"><div class="m">${esc(c.name)}</div><div class="sub">${esc(summary(c))}</div></div>${c.pinned ? `<span class="pin">${svg(P.pin, 13, 2.2)}</span>` : ''}${chev}</div>`).join('')}</div>`) + `</div>`;
+    if (subs.length) h += `<div class="sec"><div class="sh">${kind === 'cards' && subs.every(x => kindOf(x) === 'binder') ? 'Binders' : kind === 'cars' && subs.every(x => kindOf(x) === 'set') ? 'Sets' : 'Folders'}</div>` + (lay === 'grid'
+      ? `<div class="grid">${subs.map(c => `<div class="card dr tap" data-folder="${c.id}" style="--c:#${c.color}"><div class="hd">${fIcon(c.icon, c.color, 40, c.iconImg)}${c.pinned ? `<span class="pin">${svg(P.pin, 13, 2.2)}</span>` : ''}</div><div class="lbl"><div class="nm">${esc(c.name)}</div><div class="sub">${esc(summary(c))}</div></div><span class="hdl"></span></div>`).join('')}</div>`
+      : `<div class="vlist">${subs.map(c => `<div class="drow tap" data-folder="${c.id}" style="--c:#${c.color}">${fIcon(c.icon, c.color, 36, c.iconImg)}<div class="tx"><div class="m">${esc(c.name)}</div><div class="sub">${esc(summary(c))}</div></div>${c.pinned ? `<span class="pin">${svg(P.pin, 13, 2.2)}</span>` : ''}<span class="vh"></span></div>`).join('')}</div>`) + `</div>`;
     const special = kind === 'cars' || isZoomGrid(kind) ? FKIND[kind].tpl : null, gal = special ? ents.filter(e => tplOf(e) === special) : [];
-    if (kind === 'cars' && gal.length) {
+    if (kind === 'cars' && lay === 'grid' && gal.length) {
       const T = TPL.car;
       h += `<div class="sec"><div class="sh">Cars</div><div class="gal" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr))">${gal.map(e => `<div class="gt tap" data-entry="${e.id}"><div class="gimg" style="aspect-ratio:${T.aspect}${e.cover && blobURL['ct:' + e.cover] ? `;background-image:url('${blobURL['ct:' + e.cover]}')` : ''}">${e.cover ? '' : glyph(T.symbol, 30, 'currentColor')}${e.quantity !== 1 ? `<span class="gq">×${e.quantity}</span>` : ''}</div><div class="gtx"><div class="gn"><span>${esc(title(e))}</span>${e.fav ? starFill(11) : ''}</div>${galleryInfo(e) ? `<div class="gs">${esc(galleryInfo(e))}</div>` : ''}</div></div>`).join('')}</div></div>`;
     }
-    if (isZoomGrid(kind)) {
+    if (isZoomGrid(kind) && lay === 'grid') {
       const cars = kind === 'set', unit = cars ? 'cars' : 'cards', cols = Math.min(6, Math.max(1, f.cardsPerRow || 3)), sp = cols >= 5 ? 4 : cols >= 3 ? 6 : 10;
       const tile = e => cars
         ? `<div class="stile tap" data-entry="${e.id}" role="button" aria-label="${esc(title(e))}"><div class="simg"${e.cover && blobURL['ct:' + e.cover] ? ` style="background-image:url('${blobURL['ct:' + e.cover]}')"` : ''}>${e.cover ? '' : glyph(TPL.car.symbol, 22, 'currentColor')}${e.quantity !== 1 ? `<span class="gq">×${e.quantity}</span>` : ''}</div>${cols <= 3 ? `<div class="sname">${esc(title(e))}</div>` : ''}</div>`
         : `<div class="pocket tap" data-entry="${e.id}" role="button" aria-label="${esc(title(e))}"${e.cover && blobURL['ct:' + e.cover] ? ` style="background-image:url('${blobURL['ct:' + e.cover]}')"` : ''}>${e.cover ? '' : glyph(TPL.card.symbol, 20, 'currentColor') + `<span>${esc(title(e))}</span>`}${e.quantity !== 1 ? `<span class="gq">×${e.quantity}</span>` : ''}</div>`;
       h += `<div class="sec"><div class="sh">${cars ? 'Cars' : 'Cards'}</div><div class="binder"><div class="bctl"><span class="bl">${svg(P.grid, 18, 2)}${cars ? 'Cars' : 'Cards'} across</span><b>${cols}</b><button type="button" class="zb" data-act="zoom" data-v="1" aria-label="Zoom out: more ${unit} across"${cols >= 6 ? ' disabled' : ''}>${svg(P.zoomOut, 22, 2)}</button><button type="button" class="zb" data-act="zoom" data-v="-1" aria-label="Zoom in: fewer ${unit} across"${cols <= 1 ? ' disabled' : ''}>${svg(P.zoomIn, 22, 2)}</button></div>`
-        + (gal.length ? `<div class="bgrid2" style="grid-template-columns:repeat(${cols},minmax(0,1fr));gap:${sp}px;padding:${sp + 4}px">${gal.map(tile).join('')}</div>` : `<div class="bempty">No ${unit} yet. Tap the pencil button to add one.</div>`)
+        + (gal.length ? `<div class="bgrid2" style="grid-template-columns:repeat(${cols},minmax(0,1fr));gap:${sp}px;padding:${sp + 4}px">${gal.map(tile).join('')}</div>` : `<div class="bempty">No ${unit} yet. Tap + to add one.</div>`)
         + '</div></div>';
     }
+    const row = e => `<div class="icard tap" data-entry="${e.id}">${entryIcon(e, 38)}<div class="tx"><div class="m">${esc(title(e))}</div><div class="sub">${esc(subtitle(e))}</div></div>${e.quantity !== 1 ? `<span class="qb">×${e.quantity}</span>` : ''}${e.fav ? `<span style="display:flex">${starFill(13)}</span>` : ''}${chev}</div>`;
+    /* List view: cars and cards as rows instead of pictures */
+    if (special && lay === 'list' && gal.length) h += `<div class="sec"><div class="sh">${special === 'car' ? 'Cars' : 'Cards'}</div><div class="vlist">${gal.map(row).join('')}</div></div>`;
     const listed = special ? ents.filter(e => tplOf(e) !== special) : ents;
-    if (listed.length) h += `<div class="sec"><div class="sh">Items</div><div class="cstack">${listed.map(e => `<div class="row tap" data-entry="${e.id}">${entryIcon(e, 36)}<div class="tx"><div class="m">${esc(title(e))}</div><div class="sub">${esc(subtitle(e))}</div></div>${e.quantity !== 1 ? `<span class="qb">×${e.quantity}</span>` : ''}${e.fav ? `<span style="display:flex">${starFill(13)}</span>` : ''}${chev}</div>`).join('')}</div></div>`;
+    if (listed.length) h += `<div class="sec"><div class="sh">Items</div><div class="vlist">${listed.map(e => `<div class="icard tap" data-entry="${e.id}">${entryIcon(e, 38)}<div class="tx"><div class="m">${esc(title(e))}</div><div class="sub">${esc(subtitle(e))}</div></div>${e.quantity !== 1 ? `<span class="qb">×${e.quantity}</span>` : ''}${e.fav ? `<span style="display:flex">${starFill(13)}</span>` : ''}${chev}</div>`).join('')}</div></div>`;
     if (phs.length) h += `<div class="sec"><div class="sh">Photos</div>${photoGrid(phs)}</div>`;
     content.innerHTML = h;
     $('.tcount', el).textContent = `${plural(subs.length, 'folder')}, ${plural(ents.length, 'item')}` + (phs.length ? `, ${plural(phs.length, 'photo')}` : '');
@@ -862,16 +904,20 @@ function buildContent(fid) {
   s.act = (a, btn) => {
     if (a === 'zoom') zoomBinder(Number(btn.dataset.v));
     else if (a === 'viewmenu') openMenu(btn, [
-      kindOf(Fo(fid)) !== 'standard' ? [] : [{label:'Grid', icon:P.grid, check:db.prefs.layout === 'grid', run:() => { db.prefs.layout = 'grid'; commit(); }}, {label:'List', icon:P.list, check:db.prefs.layout === 'list', run:() => { db.prefs.layout = 'list'; commit(); }}],
+      [{label:'Grid', icon:P.grid, check:layoutOf(Fo(fid)) === 'grid', run:() => setLayout(Fo(fid), 'grid')}, {label:'List', icon:P.list, check:layoutOf(Fo(fid)) === 'list', run:() => setLayout(Fo(fid), 'list')}],
       [['name','Name'],['modified','Date Modified'],['created','Date Created']].map(([k, l]) => ({label:l, check:db.prefs.sort === k, run:() => { db.prefs.sort = k; commit(); }})),
       ...(fid ? [[{label:'Edit Folder', icon:P.pencil, run:() => openFolderEditor({edit:fid})}]] : []),
       [...(fid ? [{label:'Create PDF List…', icon:P.richtext, run:() => openPdf(fid)}] : []),
        {label:fid ? 'Export CSV…' : 'Export All Data…', icon:P.share, run:() => openExport(fid)},
-       {label:'Import CSV…', icon:P.download, run:() => importCSV(fid)}]
+       {label:'Import CSV…', icon:P.download, run:() => importCSV(fid)}],
+      [['system','System'],['light','Light'],['dark','Dark']].map(([k, l]) => ({label:l + (k === 'system' ? ' (Automatic)' : ' Mode'), check:(db.prefs.appearance || 'system') === k, run:() => { db.prefs.appearance = k; commit(); }}))
     ], true);
-    else if (a === 'newfolder' && btn.closest('.toolbar') && specialChild(kindOf(Fo(fid)))) { const sp = specialChild(kindOf(Fo(fid))); openMenu(btn, [[
-      {label:'New Folder', icon:P.folderPlus, run:() => openFolderEditor({parent:fid})},
-      {label:sp === 'binder' ? 'New Binder' : 'New Set', icon:sp === 'binder' ? P.richtext : P.stack, run:() => openFolderEditor({parent:fid, initialKind:sp})}]], false); }
+    else if (a === 'addmenu') { const kind = kindOf(Fo(fid)), sp = specialChild(kind); openMenu(btn, [
+      kind === 'cards' ? [] : [{label:FKIND[kind].newName, icon:P.docPlus, run:() => createEntry(fid)}],
+      [{label:'New Folder', icon:P.folderPlus, run:() => openFolderEditor({parent:fid})},
+       ...(sp ? [{label:sp === 'binder' ? 'New Binder' : 'New Set', icon:sp === 'binder' ? P.richtext : P.stack, run:() => openFolderEditor({parent:fid, initialKind:sp})}] : [])],
+      [{label:'Add Photos', icon:P.photoPlus, run:() => pickFiles(true, files => addPhotos(files, fid, null))}]
+    ], true); }
     else if (a === 'newbinder') openFolderEditor({parent:fid, initialKind:'binder'});
     else if (a === 'newfolder') openFolderEditor({parent:fid});
     else if (a === 'newentry') createEntry(fid);
@@ -1384,7 +1430,7 @@ const blobToB64 = b => new Promise(res => { if (!b) return res(''); const r = ne
 const b64ToBlob = s => { try { const bin = atob(s.replace(/\s+/g, '')); const a = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return new Blob([a], {type:'image/jpeg'}); } catch (e) { return null; } };
 
 /* ---------- CSV (same columns and order as CSVTransfer.swift) ---------- */
-const COLS = ['Record','ID','Parent ID','Location','Name','Quantity','Icon','Color','Pinned','Favorite','Field Type','Value','Order','Notes','Created','Modified','Image','Template','Cover Image','Cards Per Row','Back Image','Card Style','Car Style'];
+const COLS = ['Record','ID','Parent ID','Location','Name','Quantity','Icon','Color','Pinned','Favorite','Field Type','Value','Order','Notes','Created','Modified','Image','Template','Cover Image','Cards Per Row','Back Image','Card Style','Car Style','Layout'];
 const csvCell = v => /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
 function csvParse(text) {
   if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
@@ -1426,7 +1472,7 @@ async function buildCSV(fid, withPhotos) {
   const folder = async (f, pid) => {
     const id = 'F' + n.F++;
     add({Record:'Folder', ID:id, 'Parent ID':pid, Location:folderLoc(f), Name:f.name, Icon:f.icon, Color:f.color, Pinned:f.pinned ? 'Yes' : 'No',
-      Created:isoDate(f.created), Modified:isoDate(f.updated), Image:await img(f.iconImg), Template:kindOf(f), 'Cards Per Row':isZoomGrid(kindOf(f)) ? String(f.cardsPerRow || 3) : '', 'Card Style':kindOf(f) === 'binder' ? (f.cardStyle || 'other') : '', 'Car Style':kindOf(f) === 'cars' || kindOf(f) === 'set' ? (f.carStyle || 'diecast') : ''});
+      Created:isoDate(f.created), Modified:isoDate(f.updated), Image:await img(f.iconImg), Template:kindOf(f), 'Cards Per Row':isZoomGrid(kindOf(f)) ? String(f.cardsPerRow || 3) : '', 'Card Style':kindOf(f) === 'binder' ? (f.cardStyle || 'other') : '', 'Car Style':kindOf(f) === 'cars' || kindOf(f) === 'set' ? (f.carStyle || 'diecast') : '', Layout:layoutOf(f)});
     for (const e of byNameE(kidsE(f.id))) await entry(e, id);
     if (withPhotos) for (const p of photosOf(f.id, null)) await photo(p, id, folderLoc(f) + ' › ' + f.name);
     for (const c of byNameF(kidsF(f.id))) await folder(c, id);
@@ -1510,6 +1556,7 @@ async function importText(text, dest) {
       const fk = at(row, 'Template').trim().toLowerCase(); f.kind = FKIND[fk] ? fk : 'standard';
       const fcs = at(row, 'Card Style').trim().toLowerCase(); if (CARD_STYLES[fcs]) f.cardStyle = fcs;
       const fvs = at(row, 'Car Style').trim().toLowerCase(); if (CAR_STYLES[fvs]) f.carStyle = fvs;
+      const lyt = at(row, 'Layout').trim().toLowerCase(); if (lyt === 'grid' || lyt === 'list') f.layout = lyt;
       const pr = parseInt(at(row, 'Cards Per Row'), 10); if (!isNaN(pr)) f.cardsPerRow = Math.min(6, Math.max(1, pr));
       if (at(row, 'ID')) folders[at(row, 'ID')] = f; parents.push([f, at(row, 'Parent ID')]); r.folders++;
     }
@@ -1899,7 +1946,19 @@ const reset = empty => actionSheet({heading: empty ? (SAMPLE_DATA ? 'Start with 
 ['pEmpty','mEmpty'].forEach(i => $('#' + i).addEventListener('click', () => reset(true)));
 const tick = () => { $('#clock').textContent = new Date().toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'}).replace(/\s?[AP]M/, ''); };
 tick(); setInterval(tick, 20000);
-(async () => { idb = await idbOpen(); await loadBlobs(); setRoot(); if (fresh) { save(); if (SAMPLE_DATA) await seedPhotos(); } })();
+/* iPhone-style scroll indicator for mouse/trackpad (touch screens use the native one) */
+if (matchMedia('(hover:hover) and (pointer:fine)').matches) {
+  const ind = document.createElement('div'); ind.id = 'sind'; app.appendChild(ind); let hideT;
+  document.addEventListener('scroll', e => {
+    const t = e.target; if (!(t instanceof Element) || t.scrollHeight <= t.clientHeight + 1 || !app.contains(t)) return;
+    const ar = app.getBoundingClientRect(), r = t.getBoundingClientRect();
+    const track = t.clientHeight - 6, th = Math.max(36, track * t.clientHeight / t.scrollHeight);
+    const f = Math.min(1, Math.max(0, t.scrollTop / (t.scrollHeight - t.clientHeight)));
+    ind.style.height = th + 'px'; ind.style.top = (r.top - ar.top + 3 + f * (track - th)) + 'px'; ind.style.right = (ar.right - r.right + 3) + 'px';
+    ind.classList.add('on'); clearTimeout(hideT); hideT = setTimeout(() => ind.classList.remove('on'), 700);
+  }, true);
+}
+(async () => { applyAppearance(); idb = await idbOpen(); await loadBlobs(); setRoot(); if (fresh) { save(); if (SAMPLE_DATA) await seedPhotos(); } })();
 }
 </script>
 <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
